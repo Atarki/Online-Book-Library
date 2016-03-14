@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+    <link rel="stylesheet" href="css/login.css">
+</head>
+<body>
+<div class="block">
+    <a href="register.html" id="register">Register</a>
+    <a href="login.html" id="login">Sign in</a>
+
+    <br>
+    <form action="/book"
+    <table class="userTable">
+        <thead>
+        <td>index</td>
+        <td>name</td>
+        </thead>
+        <#list users as user>
+            <tr id=${user_index+1}>
+                <td>${user_index+1}</td>
+                <td>${user.name}</td>
+            </tr>
+        </#list>
+    </table>
+</div>
+
+</body>
+</html>

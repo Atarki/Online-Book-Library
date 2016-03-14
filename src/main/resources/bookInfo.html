@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+    <link rel="stylesheet" href="css/login.css">
+</head>
+<body>
+<div class="block">
+    <table class="userTable">
+        <thead>
+        <td>index</td>
+        <td>name</td>
+        <td>author</td>
+        <td>genre</td>
+        </thead>
+        <#list users as user>
+            <tr id=${user_index+1}>
+                <td>${user_index+1}</td>
+                <td>${user.name}</td>
+                <td>${user.author}</td>
+                <td>${user.genre}</td>
+            </tr>
+        </#list>
+    </table>
+</div>
+</body>
+</html>
