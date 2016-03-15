@@ -5,15 +5,17 @@
     <script type="text/javascript" src="js/jquery.js"></script>
     <script type="text/javascript" src="js/main.js"></script>
     <link rel="stylesheet" href="css/login.css">
+
 </head>
 <body>
 <div class="block">
-    <form action="/book" method="post">
-        <input type="password" name="name" placeholder="Name"/>
-        <input type="text" name="author" placeholder="Author"/>
-        <input type="email" name="genre" placeholder="Genre"/>
-        <button id="LoginSubmit">Add book</button>
+    <form action="/user" method="post">
+        <input type="text" name="login" placeholder="Login"/>
+        <input type="password" name="pass" placeholder="Password"/>
+        <input type="email" name="email" placeholder="Email"/>
+        <button book_id="LoginSubmit">Register</button>
     </form>
 </div>
+
 </body>
 </html>

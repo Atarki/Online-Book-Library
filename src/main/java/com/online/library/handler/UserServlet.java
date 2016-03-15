@@ -1,7 +1,9 @@
 package com.online.library.handler;
 
 import com.google.gson.Gson;
+import com.online.library.dao.entity.Book;
 import com.online.library.dao.entity.UserProfile;
+import com.online.library.handler.util.PageGenerator;
 import com.online.library.service.AccountService;
 
 import javax.servlet.ServletException;
@@ -9,28 +11,41 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class UserServlet extends HttpServlet {
+    private Map<String, Object> pageData = new HashMap<>();
     private AccountService accountService;
 
     //get public user profile
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         UserProfile profile = accountService.getUserByLogin(request.getParameter("login"));
-        UserProfile userBySessionId = accountService.getUserBySessionId(request.getRequestedSessionId());
 
-        if (userBySessionId.getLogin().isEmpty()) {
+        if (profile == null) {
             response.setContentType("text/html;charset=utf-8");
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         } else {
             String json = getJsonString(profile);
-
-            response.setContentType("text/html;charset=utf-8");
-            response.getWriter().println(json);
-            response.setStatus(HttpServletResponse.SC_OK);
+            List<Book> profileBookList = profile.getBookList();
+            //@Test delete later
+            if (profileBookList == null) {
+                profileBookList = new ArrayList<>();
+                Book book = new Book();
+                book.setTitle("there should be a books");
+                book.setAuthor("Some author");
+                book.setGenre("Some genre");
+                profileBookList.add(book);
+            }
+            pageData.put("userInfo", json);
+            pageData.put("userBooks", profileBookList);
+            response.getWriter().println(PageGenerator.instance().getPage("html/userInfo.html", pageData));
         }
     }
 
-    //sign up
+    //register
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String login = request.getParameter("login");
         String pass = request.getParameter("pass");
@@ -45,6 +60,7 @@ public class UserServlet extends HttpServlet {
         UserProfile newUser = new UserProfile(login, pass, email);
         accountService.addNewUser(newUser);
         accountService.addSession(request.getRequestedSessionId(), newUser);
+        response.sendRedirect("/home");
 
         String json = getJsonString(newUser);
 

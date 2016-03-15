@@ -1,9 +1,15 @@
 package com.online.library.service;
 
+import com.online.library.dao.UserDao;
 import com.online.library.dao.cache.UserRepository;
 import com.online.library.dao.entity.UserProfile;
 
 public class AccountService {
+    private UserDao userDao;
+
+    public void setUserDao(UserDao userDao) {
+        this.userDao = userDao;
+    }
 
     public UserProfile getUserByLogin(String login) {
         return UserRepository.getInstance().getUserByLogin(login);
@@ -20,7 +26,6 @@ public class AccountService {
     public void addSession(String requestedSessionId, UserProfile newUser) {
         UserRepository.getInstance().addSession(requestedSessionId, newUser);
     }
-
 
     public void updateUser(UserProfile userBySessionId) {
         UserRepository.getInstance().updateUser(userBySessionId);

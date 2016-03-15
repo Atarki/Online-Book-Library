@@ -1,30 +1,49 @@
 package com.online.library.dao.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * Created by Tim on 14.03.2016.
  */
 @Entity
-public class Book {
+@Table(name = "books", schema = "booklibrary")
+public class Book implements Serializable {
+    private int book_id;
+    private String title;
+    private String author;
+    private String genre;
+    private String year;
+
     @Id
     @Column
-    private String name;
-    @Column
-    private String author;
-    @Column
-    private String genre;
-
-    public String getName() {
-        return name;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    public int getBook_id() {
+        return book_id;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setBook_id(int book_id) {
+        this.book_id = book_id;
     }
 
+    @Column
+    public String getYear() {
+        return year;
+    }
+
+    public void setYear(String year) {
+        this.year = year;
+    }
+    @Column
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    @Column
     public String getAuthor() {
         return author;
     }
@@ -33,11 +52,15 @@ public class Book {
         this.author = author;
     }
 
+    @Column
     public String getGenre() {
         return genre;
     }
 
     public void setGenre(String genre) {
         this.genre = genre;
+    }
+
+    public Book() {
     }
 }

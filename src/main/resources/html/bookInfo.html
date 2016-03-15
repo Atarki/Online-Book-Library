@@ -11,19 +11,20 @@
     <table class="userTable">
         <thead>
         <td>index</td>
-        <td>name</td>
+        <td>title</td>
         <td>author</td>
         <td>genre</td>
         </thead>
-        <#list users as user>
-            <tr id=${user_index+1}>
-                <td>${user_index+1}</td>
-                <td>${user.name}</td>
-                <td>${user.author}</td>
-                <td>${user.genre}</td>
+        <#list book as book>
+            <tr book_id=${book_index+1}>
+                <td>${book_index+1}</td>
+                <td>${book.title}</td>
+                <td>${book.author}</td>
+                <td>${book.genre}</td>
             </tr>
         </#list>
     </table>
+    <button type="button">Download</button>
 </div>
 </body>
 </html>

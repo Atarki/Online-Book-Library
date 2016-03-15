@@ -13,22 +13,6 @@ public class UserRepository {
     private Map<String, UserProfile> loginToProfile;
     private Map<String, UserProfile> sessionIdToProfile;
 
-    public Map<String, UserProfile> getLoginToProfile() {
-        return loginToProfile;
-    }
-
-    public void setLoginToProfile(Map<String, UserProfile> loginToProfile) {
-        this.loginToProfile = loginToProfile;
-    }
-
-    public Map<String, UserProfile> getSessionIdToProfile() {
-        return sessionIdToProfile;
-    }
-
-    public void setSessionIdToProfile(Map<String, UserProfile> sessionIdToProfile) {
-        this.sessionIdToProfile = sessionIdToProfile;
-    }
-
     public static UserRepository getInstance() {
         return ourInstance;
     }
@@ -36,6 +20,10 @@ public class UserRepository {
     private UserRepository() {
         loginToProfile = new HashMap<String, UserProfile>();
         sessionIdToProfile = new HashMap<String, UserProfile>();
+        //Add default testUser admin userProfile
+        UserProfile admin = new UserProfile("admin","admin","admin@support.com");
+        loginToProfile.put("admin", admin);
+        sessionIdToProfile.put("admin", admin);
     }
 
     public void addNewUser(UserProfile userProfile) {
@@ -44,21 +32,6 @@ public class UserRepository {
 
     public UserProfile getUserByLogin(String login) {
         return loginToProfile.get(login);
-    }
-
-    public void updateUser(UserProfile userProfile) {
-        for (Map.Entry<String, UserProfile> entry : loginToProfile.entrySet()) {
-            String key = entry.getKey();
-            if (key.equals(userProfile.getLogin())) {
-                loginToProfile.replace(key, userProfile);
-            }
-        }
-        for (Map.Entry<String, UserProfile> entry : sessionIdToProfile.entrySet()) {
-            String key = entry.getKey();
-            if (key.equals(userProfile.getLogin())) {
-                sessionIdToProfile.replace(key, userProfile);
-            }
-        }
     }
 
     public UserProfile getUserBySessionId(String sessionId) {
@@ -75,5 +48,20 @@ public class UserRepository {
 
     public void deleteUser(String user) {
         loginToProfile.remove(user);
+    }
+
+    public void updateUser(UserProfile userProfile) {
+        for (Map.Entry<String, UserProfile> entry : loginToProfile.entrySet()) {
+            String key = entry.getKey();
+            if (key.equals(userProfile.getLogin())) {
+                loginToProfile.replace(key, userProfile);
+            }
+        }
+        for (Map.Entry<String, UserProfile> entry : sessionIdToProfile.entrySet()) {
+            String key = entry.getKey();
+            if (key.equals(userProfile.getLogin())) {
+                sessionIdToProfile.replace(key, userProfile);
+            }
+        }
     }
 }

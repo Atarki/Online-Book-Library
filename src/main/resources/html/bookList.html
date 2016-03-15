@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+    <link rel="stylesheet" href="css/login.css">
+</head>
+<body>
+<div class="block">
+    <#if user??>
+        Hi ${user}.
+        <#else>
+            <a href="register.html" book_id="register">Register</a>
+            <a href="login.html" book_id="login">Sign in</a>
+    </#if>
+    <form action="/books" method="post">
+        <button>Add book</button>
+    </form>
+
+    <br>
+    <input book_id="search" type="text">Search
+    <table class="userTable">
+        <thead>
+        <td>index</td>
+        <td>title</td>
+        </thead>
+        <#list books as book>
+            <tr book_id=${book_index+1}>
+                <td>${book_index+1}</td>
+                <td>${book.title}</td>
+                <td>${book.author}</td>
+                <td>${book.genre}</td>
+                <td>${book.year}</td>
+            </tr>
+        </#list>
+    </table>
+</div>
+
+</body>
+</html>

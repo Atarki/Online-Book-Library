@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+    <link rel="stylesheet" href="css/login.css">
+</head>
+<body>
+<div class="block">
+    ${userInfo}
+    <br/>
+    <table>
+        <th>
+        <td>Name</td>
+        <td>Author</td>
+        <td>Genre</td>
+        </th>
+        <#if userBooks??>
+            <#list userBooks as books>
+                <tr>
+                    <td>${books.title}</td>
+                    <td>${books.author}</td>
+                    <td>${books.genre}</td>
+                </tr>
+            </#list>
+        </#if>
+    </table>
+    <a href="/home">Go to main page</a>
+</div>
+</body>
+</html>

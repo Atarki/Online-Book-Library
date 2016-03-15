@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://java.sun.com/jsf/html">
+<head>
+    <meta charset="UTF-8"/>
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+    <link rel="stylesheet" href="css/login.css">
+</head>
+<body>
+<div class="block">
+    <#if user??>
+        Hi ${user}.
+        <form>
+            <button id="logOut">Log Out</button>
+        </form>
+        <#else>
+            <a href="register.html" book_id="register">Register</a>
+            <a href="login.html" book_id="login">Sign in</a>
+    </#if>
+    <form action="/books" method="get">
+        <button>Go to book library</button>
+    </form>
+
+    <br>
+</div>
+
+</body>
+</html>
