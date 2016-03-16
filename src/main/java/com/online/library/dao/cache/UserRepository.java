@@ -21,9 +21,8 @@ public class UserRepository {
         loginToProfile = new HashMap<String, UserProfile>();
         sessionIdToProfile = new HashMap<String, UserProfile>();
         //Add default testUser admin userProfile
-        UserProfile admin = new UserProfile("admin","admin","admin@support.com");
+        UserProfile admin = new UserProfile("admin","123","admin@support.com");
         loginToProfile.put("admin", admin);
-        sessionIdToProfile.put("admin", admin);
     }
 
     public void addNewUser(UserProfile userProfile) {

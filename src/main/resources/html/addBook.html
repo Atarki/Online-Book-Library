@@ -8,12 +8,16 @@
 </head>
 <body>
 <div class="block">
-    <form action="/book" method="post">
-        <input type="text" title="title" placeholder="Name"/>
-        <input type="text" title="author" placeholder="Author"/>
-        <input type="text" title="genre" placeholder="Genre"/>
-        <input type="text" title="year" placeholder="Year"/>
-        <button book_id="LoginSubmit">Add book</button>
+    <form action="/books" method="post">
+        <input type="text" name="title" placeholder="Title"/>
+        <input type="text" name="author" placeholder="Author"/>
+        <input type="text" name="genre" placeholder="Genre"/>
+        <input type="text" name="year" placeholder="Year"/>
+        <button>Add book</button>
+    </form>
+    <br/>
+    <form action="/home" method="get">
+        <button>Go Back</button>
     </form>
 </div>
 </body>

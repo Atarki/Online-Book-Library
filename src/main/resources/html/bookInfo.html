@@ -10,21 +10,29 @@
 <div class="block">
     <table class="userTable">
         <thead>
-        <td>index</td>
-        <td>title</td>
-        <td>author</td>
-        <td>genre</td>
+        <th>index</th>
+        <th>title</th>
+        <th>author</th>
+        <th>genre</th>
+        <th>year</th>
         </thead>
-        <#list book as book>
-            <tr book_id=${book_index+1}>
-                <td>${book_index+1}</td>
-                <td>${book.title}</td>
-                <td>${book.author}</td>
-                <td>${book.genre}</td>
-            </tr>
-        </#list>
+        <tr>
+            <td>${book.book_id}</td>
+            <td>${book.title}</td>
+            <td>${book.author}</td>
+            <td>${book.genre}</td>
+            <td>${book.year}</td>
+        </tr>
+
     </table>
-    <button type="button">Download</button>
+    <form>
+        <button type="button">Download</button>
+    </form>
+    <br/>
+
+    <form action="/home" method="get">
+        <button>Go Back</button>
+    </form>
 </div>
 </body>
 </html>

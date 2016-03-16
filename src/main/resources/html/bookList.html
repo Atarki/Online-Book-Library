@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://java.sun.com/jsf/html">
 <head>
     <meta charset="UTF-8"/>
     <script type="text/javascript" src="js/jquery.js"></script>
@@ -9,33 +9,86 @@
 <body>
 <div class="block">
     <#if user??>
-        Hi ${user}.
+        Hi ${user}
+        <form action="/info" method="get">
+            <button id="userInfo">User info</button>
+        </form>
+        <form>
+            <button id="logOut">Log Out</button>
+        </form>
         <#else>
-            <a href="register.html" book_id="register">Register</a>
-            <a href="login.html" book_id="login">Sign in</a>
+            <a href="register.html" id="register">Register</a>
+            <a href="login.html" id="login">Sign in</a>
     </#if>
-    <form action="/books" method="post">
+    <br>
+    <form action="addBook.html" method="get">
         <button>Add book</button>
     </form>
 
     <br>
-    <input book_id="search" type="text">Search
+    <input id="search" type="text">
+    <button>Search</button>
+    <br>
+
     <table class="userTable">
         <thead>
-        <td>index</td>
-        <td>title</td>
+        <th><h4>?</h4></th>
+        <th><h4>#</h4></th>
+        <th><h4>title</h4></th>
+        <th><h4>bookmark</h4></th>
         </thead>
         <#list books as book>
-            <tr book_id=${book_index+1}>
-                <td>${book_index+1}</td>
+            <tr id=${book_index+1}>
+                <td>
+                    <form action="/books" method="get">
+                        <button name="${book.book_id}">info</button>
+                    </form>
+                </td>
+                <td>${book.book_id}</td>
                 <td>${book.title}</td>
-                <td>${book.author}</td>
-                <td>${book.genre}</td>
-                <td>${book.year}</td>
+                <td>
+                    <button onclick="add(${book.book_id})">bookmark</button>
+                </td>
             </tr>
         </#list>
     </table>
 </div>
+<script>
+    function info(book_id) {
+        $.ajax({
+            type: 'GET',
+            url: '/books',
+            data: {book_id: book_id}
+
+        });
+    }
+    function add(book_id) {
+        $.ajax({
+            type: 'POST',
+            url: '/bookmark',
+            data: {book_id: book_id},
+            success: function (res, status, xhr) {
+                alert("Book was added to bookmark successfully");
+            },
+            error: function () {
+                alert("You are not authorized");
+            }
+        });
+    }
+    function deleteBook(book_id) {
+        $.ajax({
+            type: 'DELETE',
+            url: '/bookmark',
+            data: {book_id: book_id},
+            success: function (res, status, xhr) {
+                alert("Book was deleted from bookmark successfully");
+            },
+            error: function () {
+                alert("You are not authorized");
+            }
+        });
+    }
+</script>
 
 </body>
 </html>

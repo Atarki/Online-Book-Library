@@ -1,10 +1,9 @@
 package com.online.library.starter;
 
 import com.online.library.dao.BookDao;
+import com.online.library.dao.UserBookDao;
 import com.online.library.dao.UserDao;
-import com.online.library.handler.BookServlet;
-import com.online.library.handler.HomeServlet;
-import com.online.library.handler.UserServlet;
+import com.online.library.handler.*;
 import com.online.library.service.AccountService;
 import com.online.library.service.BookService;
 import org.eclipse.jetty.server.Handler;
@@ -19,13 +18,15 @@ import org.eclipse.jetty.servlet.ServletHolder;
  */
 public class Starter {
     public static void main(String[] args) throws Exception {
-        AccountService accountService = new AccountService();
         BookService bookService = new BookService();
+        AccountService accountService = new AccountService();
         UserDao userDao = new UserDao();
         BookDao bookDao = new BookDao();
+        UserBookDao userBookDao = new UserBookDao();
 
         bookService.setBookDao(bookDao);
         accountService.setUserDao(userDao);
+        accountService.setUserBookDao(userBookDao);
 
         bookService.getBookList();                       // delete later
 
@@ -33,18 +34,27 @@ public class Starter {
         bookServlet.setAccountService(accountService);
         bookServlet.setBookService(bookService);
 
-        UserServlet userServlet = new UserServlet();
-        userServlet.setAccountService(accountService);
+        BookmarkBookServlet bookmarkBookServlet = new BookmarkBookServlet();
+        bookmarkBookServlet.setAccountService(accountService);
+        bookmarkBookServlet.setBookService(bookService);
 
         HomeServlet homeServlet = new HomeServlet();
         homeServlet.setAccountService(accountService);
         homeServlet.setBookService(bookService);
 
+        RegisterLoginServlet registerLoginServlet = new RegisterLoginServlet();
+        registerLoginServlet.setAccountService(accountService);
+
+        UserInfoServlet userInfoServlet = new UserInfoServlet();
+        userInfoServlet.setAccountService(accountService);
+
 
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
         context.addServlet(new ServletHolder(bookServlet), "/books");
-        context.addServlet(new ServletHolder(userServlet), "/user");
+        context.addServlet(new ServletHolder(registerLoginServlet), "/user");
         context.addServlet(new ServletHolder(homeServlet), "/home");
+        context.addServlet(new ServletHolder(bookmarkBookServlet), "/bookmark");
+        context.addServlet(new ServletHolder(userInfoServlet), "/info");
 
         ResourceHandler resourceHandler = new ResourceHandler();
         resourceHandler.setResourceBase("src/main/resources/html");

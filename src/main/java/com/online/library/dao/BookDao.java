@@ -1,5 +1,6 @@
 package com.online.library.dao;
 
+import com.online.library.dao.cache.BookRepository;
 import com.online.library.dao.entity.Book;
 import org.hibernate.Session;
 
@@ -9,25 +10,14 @@ import java.util.List;
  * Created by Tim on 14.03.2016.
  */
 public class BookDao {
-    private DataSource dataSource;
     private Session session;
-
-    public void setDataSource(DataSource dataSource) {
-        this.dataSource = dataSource;
-    }
-
 
     public List<Book> getBookList() {
         session = Configuration.getSession();
         session.beginTransaction();
         List<Book> bookList = session.createQuery("from com.online.library.dao.entity.Book").list();
-        /*for (Book aBookList : bookList) {
-            System.out.println(aBookList.getTitle());
-        }*/
-        System.out.println("Loaded total books: " + bookList.size());
         session.getTransaction().commit();
         session.close();
-
         return bookList;
     }
 
@@ -35,7 +25,41 @@ public class BookDao {
         session = Configuration.getSession();
         session.beginTransaction();
         session.save(book);
+        session.getTransaction().commit();
         session.close();
+        BookRepository.getInstance().addBook(book);
+    }
 
+    public void deleteBook(int id) {
+        session = Configuration.getSession();
+        session.beginTransaction();
+        List<Book> bookList = session.createQuery("from com.online.library.dao.entity.Book").list();
+        for (Book book : bookList) {
+            if (book.getBook_id() == id) {
+                session.delete(book);
+            }
+        }
+        session.getTransaction().commit();
+        session.close();
+    }
+
+    public void editBook(int id, String title, String author, String genre,String year) {
+        session = Configuration.getSession();
+        session.beginTransaction();
+        List<Book> bookList = session.createQuery("from com.online.library.dao.entity.Book").list();
+        for (Book book : bookList) {
+            if (book.getBook_id() == id) {
+                book.setTitle(title);
+                book.setAuthor(author);
+                book.setGenre(genre);
+                book.setYear(year);
+                session.saveOrUpdate(book);
+            }
+        }
+        session.getTransaction().commit();
+        session.close();
+    }
+    public void update() {
+        BookRepository.getInstance().setBookList(getBookList());
     }
 }

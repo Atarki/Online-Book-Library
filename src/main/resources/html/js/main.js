@@ -1,4 +1,5 @@
 $(document).ready(function () {
+
     $('#RegisterSubmit').click(function () {
         $.ajax({
             type: 'PUT',
@@ -17,6 +18,7 @@ $(document).ready(function () {
         });
     });
 
+
     $('#LoginSubmit').click(function () {
         $.ajax({
             type: 'POST',
@@ -33,7 +35,6 @@ $(document).ready(function () {
             }
         });
     });
-
 
 
     $('#register-form').animate({opacity: 0, height: "toggle"}, 1000, function () {
@@ -63,3 +64,5 @@ $(document).ready(function () {
 
 
 });
+
+

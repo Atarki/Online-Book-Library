@@ -24,55 +24,73 @@ public class BookServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        /*List<Book> bookList = bookService.getBookList();
-        pageData.put("books", bookList);
-        resp.getWriter().println(PageGenerator.instance().getPage("index.html", pageData));*/
-        // TODO: 15.03.2016
+        //Get book info
+//        Book bookById = bookService.getBookById(Integer.parseInt(req.getParameter("book_id")));
+        Book bookById = bookService.getBookById(Integer.parseInt(req.getQueryString().replace("=", "")));
 
-        Book bookById = bookService.getBookById(Integer.parseInt(req.getParameter("id")));
         pageData.put("book", bookById);
 
         resp.getWriter().println(PageGenerator.instance().getPage("html/bookInfo.html", pageData));
-
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        //Add book
+        //Add new book
         UserProfile userBySessionId = accountService.getUserBySessionId(req.getRequestedSessionId());
-        if (userBySessionId == null || userBySessionId.getLogin().equals("admin")) {
-            resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            resp.getWriter().print("You don't have permissions to add new books");
+        try {
+            if (!userBySessionId.getLogin().equals("admin")) {
+                resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                resp.getWriter().print("You don't have permissions to add new books");
+                return;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            resp.sendRedirect("/home");
             return;
         }
 
         Book newBook = new Book();
-        newBook.setTitle(req.getParameter("name"));
+        newBook.setTitle(req.getParameter("title"));
         newBook.setAuthor(req.getParameter("author"));
         newBook.setGenre(req.getParameter("genre"));
-        bookService.addBook(newBook);
+        newBook.setYear(req.getParameter("year"));
+
+//        bookService.addBook(newBook);
 
         resp.sendRedirect("/home");
+
     }
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         //Edit book
         UserProfile userBySessionId = accountService.getUserBySessionId(req.getRequestedSessionId());
-        if (userBySessionId == null || userBySessionId.getLogin().equals("admin")) {
+        if (!userBySessionId.getLogin().equals("admin")) {
             resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            resp.getWriter().print("You don't have permissions to edit books");
+            return;
         }
 
         int id = Integer.parseInt(req.getParameter("id"));
-        String name = req.getParameter("name");
+        String title = req.getParameter("title");
         String author = req.getParameter("author");
         String genre = req.getParameter("genre");
+        String year = req.getParameter("year");
 
-        bookService.editBook(id, name, author, genre);
+        bookService.editBook(id, title, author, genre, year);
     }
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        //delete book by id??
+
+        UserProfile userBySessionId = accountService.getUserBySessionId(req.getRequestedSessionId());
+        if (!userBySessionId.getLogin().equals("admin")) {
+            resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            resp.getWriter().print("You don't have permissions to delete new books");
+            return;
+        }
+
         int id = Integer.parseInt(req.getParameter("id"));
         bookService.deleteBook(id);
 

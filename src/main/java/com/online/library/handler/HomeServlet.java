@@ -25,12 +25,14 @@ public class HomeServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         UserProfile userBySessionId = accountService.getUserBySessionId(req.getRequestedSessionId());
+
         List<Book> bookList = bookService.getBookList();
         pageData.put("books", bookList);
+
         if (userBySessionId != null) {
             pageData.put("user", userBySessionId.getLogin());
         }
-        resp.getWriter().println(PageGenerator.instance().getPage("html/index.html", pageData));
+        resp.getWriter().println(PageGenerator.instance().getPage("html/bookList.html", pageData));
     }
 
     public void setBookService(BookService bookService) {

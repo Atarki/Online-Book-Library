@@ -2,6 +2,7 @@ package com.online.library.dao.cache;
 
 import com.online.library.dao.entity.Book;
 
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -18,17 +19,14 @@ public class BookRepository {
     private BookRepository() {
     }
 
-    public List<Book> getBookList() {
-        return bookList;
-    }
-
-    public void editBook(int id, String name, String author, String genre) {
+    public void editBook(int id, String name, String author, String genre, String year) {
         for (int i = 0; i < bookList.size(); i++) {
             Book book = bookList.get(i);
-            if (id == book.getBook_id()) {
+            if (book.getBook_id() == id) {
                 book.setTitle(name);
                 book.setGenre(genre);
                 book.setAuthor(author);
+                book.setYear(year);
             }
         }
     }
@@ -42,7 +40,13 @@ public class BookRepository {
     }
 
     public void removeBook(int id) {
-        bookList.remove(id);
+        Iterator<Book> iterator = bookList.iterator();
+        while (iterator.hasNext()) {
+            Book book = iterator.next();
+            if (book.getBook_id() == id) {
+                iterator.remove();
+            }
+        }
     }
 
     public Book getBookById(int id) {

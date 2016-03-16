@@ -1,11 +1,22 @@
 package com.online.library.service;
 
+import com.online.library.dao.UserBookDao;
 import com.online.library.dao.UserDao;
 import com.online.library.dao.cache.UserRepository;
+import com.online.library.dao.entity.Book;
 import com.online.library.dao.entity.UserProfile;
 
 public class AccountService {
     private UserDao userDao;
+    private UserBookDao userBookDao;
+
+    public void linkBookToUser(UserProfile userProfile, Book book) {
+        userBookDao.linkBookToUser(userProfile, book);
+    }
+
+    public void unLinkBookToUser(UserProfile userProfile, Book book) {
+        userBookDao.unLinkBookToUser(userProfile, book);
+    }
 
     public void setUserDao(UserDao userDao) {
         this.userDao = userDao;
@@ -20,6 +31,7 @@ public class AccountService {
     }
 
     public void addNewUser(UserProfile newUser) {
+//        userDao.addNewUser(newUser);
         UserRepository.getInstance().addNewUser(newUser);
     }
 
@@ -37,5 +49,9 @@ public class AccountService {
 
     public void deleteUser(String user) {
         UserRepository.getInstance().deleteUser(user);
+    }
+
+    public void setUserBookDao(UserBookDao userBookDao) {
+        this.userBookDao = userBookDao;
     }
 }
