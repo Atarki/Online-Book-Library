@@ -30,9 +30,12 @@ public class Starter {
 
         bookService.getBookList();                       // delete later
 
-        BookServlet bookServlet = new BookServlet();
-        bookServlet.setAccountService(accountService);
-        bookServlet.setBookService(bookService);
+        BookInfoServlet bookInfoServlet = new BookInfoServlet();
+        bookInfoServlet.setBookService(bookService);
+
+        EditLibraryServlet editLibraryServlet = new EditLibraryServlet();
+        editLibraryServlet.setAccountService(accountService);
+        editLibraryServlet.setBookService(bookService);
 
         BookmarkBookServlet bookmarkBookServlet = new BookmarkBookServlet();
         bookmarkBookServlet.setAccountService(accountService);
@@ -42,19 +45,20 @@ public class Starter {
         homeServlet.setAccountService(accountService);
         homeServlet.setBookService(bookService);
 
-        RegisterLoginServlet registerLoginServlet = new RegisterLoginServlet();
-        registerLoginServlet.setAccountService(accountService);
+        AccountServlet accountServlet = new AccountServlet();
+        accountServlet.setAccountService(accountService);
 
         UserInfoServlet userInfoServlet = new UserInfoServlet();
         userInfoServlet.setAccountService(accountService);
 
 
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
-        context.addServlet(new ServletHolder(bookServlet), "/books");
-        context.addServlet(new ServletHolder(registerLoginServlet), "/user");
+        context.addServlet(new ServletHolder(editLibraryServlet), "/library");
         context.addServlet(new ServletHolder(homeServlet), "/home");
+        context.addServlet(new ServletHolder(accountServlet), "/account");
         context.addServlet(new ServletHolder(bookmarkBookServlet), "/bookmark");
-        context.addServlet(new ServletHolder(userInfoServlet), "/info");
+        context.addServlet(new ServletHolder(userInfoServlet), "/userInfo");
+        context.addServlet(new ServletHolder(bookInfoServlet), "/bookInfo");
 
         ResourceHandler resourceHandler = new ResourceHandler();
         resourceHandler.setResourceBase("src/main/resources/html");

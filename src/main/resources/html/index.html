@@ -8,15 +8,10 @@
 </head>
 <body>
 <div class="block">
-    <#if user??>
-        Hi ${user}.
-        <form>
-            <button id="logOut">Log Out</button>
-        </form>
-        <#else>
-            <a href="register.html" book_id="register">Register</a>
-            <a href="login.html" book_id="login">Sign in</a>
-    </#if>
+
+    <a href="register.html" id="register">Register</a>
+    <a href="login.html" id="login">Sign in</a>
+
     <form action="/home" method="get">
         <button>Go to book library</button>
     </form>

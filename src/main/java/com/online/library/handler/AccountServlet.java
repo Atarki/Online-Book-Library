@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class RegisterLoginServlet extends HttpServlet {
+public class AccountServlet extends HttpServlet {
     private Map<String, Object> pageData = new HashMap<>();
     private AccountService accountService;
 

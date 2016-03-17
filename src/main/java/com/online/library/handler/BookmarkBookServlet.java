@@ -40,8 +40,12 @@ public class BookmarkBookServlet extends HttpServlet {
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         //UnBookmark(delete) book from userBookList
-        int book_id = Integer.parseInt(req.getParameter("book_id"));
+        String id = req.getParameter("book_id");
+        System.out.println(id);
+        int book_id = Integer.parseInt(id);
+
         System.out.println(book_id);
+
         Book bookById =  bookService.getBookById(book_id);
         UserProfile userBySessionId = accountService.getUserBySessionId(req.getRequestedSessionId());
 

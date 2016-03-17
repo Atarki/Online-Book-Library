@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://java.sun.com/jsf/html">
+<head>
+    <meta charset="UTF-8"/>
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+    <link rel="stylesheet" href="css/login.css">
+</head>
+<body>
+<div class="block">
+    <form action="/home" method="get">
+        <button>Go Back</button>
+    </form>
+
+    <br>
+    <input id="title" type="text" name="title" placeholder="Title"/>
+    <input id="author" type="text" name="author" placeholder="Author"/>
+    <input id="genre" type="text" name="genre" placeholder="Genre"/>
+    <input id="year" type="text" name="year" placeholder="Year"/>
+    <button id="addBook" onclick="addBook()">Add book</button>
+
+    <br/>
+
+
+    <br>
+    <input id="search" type="text">
+    <button>Search</button>
+    <br>
+
+    <table class="userTable">
+        <thead>
+        <th>index</th>
+        <th>title</th>
+        <th>author</th>
+        <th>genre</th>
+        <th>year</th>
+        <th>action</th>
+        </thead>
+        <#list books as book>
+            <tr>
+                <td>${book.book_id}</td>
+                <td>${book.title}</td>
+                <td>${book.author}</td>
+                <td>${book.genre}</td>
+                <td>${book.year}</td>
+                <td>
+                    <button onclick="deleteBook(${book.book_id})">Delete</button>
+                </td>
+            </tr>
+        </#list>
+    </table>
+</div>
+<script>
+    function addBook() {
+
+        var title = document.getElementById("title").value;
+        var author = document.getElementById("author").value;
+        var genre = document.getElementById("genre").value;
+        var year = document.getElementById("year").value;
+
+        $.ajax({
+            type: 'POST',
+            url: '/library',
+            data: {
+                title: title,
+                author: author,
+                genre: genre,
+                year: year
+            },
+            success: function (res, status, xhr) {
+                alert("Book was added to library successfully");
+//                window.location.replace("/editLibrary.html");
+            },
+            error: function () {
+                alert("You are not authorized");
+                window.location.replace("/books");
+            }
+        });
+    }
+
+    function deleteBook(book_id) {
+        $.ajax({
+            type: 'DELETE',
+            url: '/library',
+            data: {book_id: book_id},
+            success: function () {
+                alert("Book was deleted successfully");
+            },
+            error: function () {
+                alert("You are not authorized");
+//                window.location.replace("/library");
+            }
+        });
+    }
+
+    function editBook() {
+
+        var book_id = document.getElementById("book_id").value;
+        var title = document.getElementById("title").value;
+        var author = document.getElementById("author").value;
+        var genre = document.getElementById("genre").value;
+        var year = document.getElementById("year").value;
+
+        $.ajax({
+            type: 'POST',
+            url: '/books',
+            data: {
+                title: title,
+                author: author,
+                genre: genre,
+                year: year
+            },
+            success: function () {
+                alert("Book was edited successfully");
+                window.location.replace("/addBook.html");
+            },
+            error: function () {
+                alert("You are not authorized");
+                window.location.replace("/home");
+            }
+        });
+    }
+</script>
+
+</body>
+</html>

@@ -34,7 +34,7 @@ public class BookService {
     }
 
     public void deleteBook(int id) {
-        bookDao.deleteBook(id);
+        /*bookDao.deleteBook(id);*/
         //Remove from cache also
         BookRepository.getInstance().removeBook(id);
     }

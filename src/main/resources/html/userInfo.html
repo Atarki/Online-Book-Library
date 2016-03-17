@@ -40,10 +40,9 @@
                     <td>${books.genre}</td>
                     <td>${books.year}</td>
                     <td>
-                        <button onclick="deleteBook(${books.book_id})">Delete</button>
+                        <button onclick="deleteBookFromUserList(${books.book_id})">Delete</button>
                     </td>
                 </tr>
-
             </#list>
         </#if>
 
@@ -53,7 +52,7 @@
 </body>
 </html>
 <script>
-    function deleteBook(book_id) {
+    function deleteBookFromUserList(book_id) {
         $.ajax({
             type: 'DELETE',
             url: '/bookmark',
@@ -65,4 +64,5 @@
                 alert("Error");
             }
         });
-    }</script>
+    }
+</script>

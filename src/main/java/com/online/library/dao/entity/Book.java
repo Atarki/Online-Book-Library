@@ -63,4 +63,15 @@ public class Book implements Serializable {
 
     public Book() {
     }
+
+    @Override
+    public String toString() {
+        return "Book{" +
+                "book_id=" + book_id +
+                ", title='" + title + '\'' +
+                ", author='" + author + '\'' +
+                ", genre='" + genre + '\'' +
+                ", year='" + year + '\'' +
+                '}';
+    }
 }

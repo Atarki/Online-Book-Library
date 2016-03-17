@@ -10,7 +10,7 @@
 <div class="block">
     <#if user??>
         Hi ${user}
-        <form action="/info" method="get">
+        <form action="/userInfo" method="get">
             <button id="userInfo">User info</button>
         </form>
         <form>
@@ -20,10 +20,10 @@
             <a href="register.html" id="register">Register</a>
             <a href="login.html" id="login">Sign in</a>
     </#if>
+    <#if user?? && user=="admin">
+        <a href="/library">EDIT LIBRARY</a>
+    </#if>
     <br>
-    <form action="addBook.html" method="get">
-        <button>Add book</button>
-    </form>
 
     <br>
     <input id="search" type="text">
@@ -40,14 +40,14 @@
         <#list books as book>
             <tr id=${book_index+1}>
                 <td>
-                    <form action="/books" method="get">
+                    <form action="/bookInfo" method="get">
                         <button name="${book.book_id}">info</button>
                     </form>
                 </td>
                 <td>${book.book_id}</td>
                 <td>${book.title}</td>
                 <td>
-                    <button onclick="add(${book.book_id})">bookmark</button>
+                    <button onclick="bookmarkBook(${book.book_id})">bookmark</button>
                 </td>
             </tr>
         </#list>
@@ -57,12 +57,12 @@
     function info(book_id) {
         $.ajax({
             type: 'GET',
-            url: '/books',
+            url: '/home',
             data: {book_id: book_id}
 
         });
     }
-    function add(book_id) {
+    function bookmarkBook(book_id) {
         $.ajax({
             type: 'POST',
             url: '/bookmark',
@@ -75,19 +75,7 @@
             }
         });
     }
-    function deleteBook(book_id) {
-        $.ajax({
-            type: 'DELETE',
-            url: '/bookmark',
-            data: {book_id: book_id},
-            success: function (res, status, xhr) {
-                alert("Book was deleted from bookmark successfully");
-            },
-            error: function () {
-                alert("You are not authorized");
-            }
-        });
-    }
+
 </script>
 
 </body>
