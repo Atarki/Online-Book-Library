@@ -10,8 +10,8 @@ import java.util.List;
  */
 public class BookRepository {
     private List<Book> bookList;
-    private static BookRepository ourInstance = new BookRepository();
 
+    private static BookRepository ourInstance = new BookRepository();
     public static BookRepository getInstance() {
         return ourInstance;
     }
@@ -57,5 +57,9 @@ public class BookRepository {
             }
         }
         return foundedBook;
+    }
+
+    public List<Book> getBookList() {
+        return bookList;
     }
 }

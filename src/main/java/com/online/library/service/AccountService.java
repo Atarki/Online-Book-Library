@@ -18,10 +18,6 @@ public class AccountService {
         userBookDao.unLinkBookToUser(userProfile, book);
     }
 
-    public void setUserDao(UserDao userDao) {
-        this.userDao = userDao;
-    }
-
     public UserProfile getUserByLogin(String login) {
         return UserRepository.getInstance().getUserByLogin(login);
     }
@@ -53,5 +49,9 @@ public class AccountService {
 
     public void setUserBookDao(UserBookDao userBookDao) {
         this.userBookDao = userBookDao;
+    }
+
+    public void setUserDao(UserDao userDao) {
+        this.userDao = userDao;
     }
 }

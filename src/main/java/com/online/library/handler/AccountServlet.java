@@ -1,6 +1,7 @@
 package com.online.library.handler;
 
 import com.online.library.dao.entity.UserProfile;
+import com.online.library.handler.util.PageGenerator;
 import com.online.library.service.AccountService;
 
 import javax.servlet.ServletException;
@@ -18,11 +19,14 @@ public class AccountServlet extends HttpServlet {
     //Login
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         UserProfile profile = accountService.getUserByLogin(request.getParameter("login"));
-        if (profile == null) {
+        String password = request.getParameter("password");
+
+        if (profile == null || password == null) {
             response.setContentType("text/html;charset=utf-8");
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
         }
-        accountService.addSession(request.getRequestedSessionId(), profile);
+
+        accountService.addSession(request.getSession().getId(), profile);
         response.sendRedirect("/home");
     }
 
@@ -40,46 +44,29 @@ public class AccountServlet extends HttpServlet {
 
         UserProfile newUser = new UserProfile(login, pass, email);
         accountService.addNewUser(newUser);
-        accountService.addSession(request.getRequestedSessionId(), newUser);
+        accountService.addSession(request.getSession().getId(), newUser);
         response.sendRedirect("/home");
     }
 
     //Change profile
     public void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        UserProfile userBySessionId = accountService.getUserBySessionId(request.getRequestedSessionId());
+        UserProfile userBySessionId = accountService.getUserBySessionId(request.getSession().getId());
 
         userBySessionId.setLogin(request.getParameter("login"));
         userBySessionId.setPassword(request.getParameter("pass"));
         userBySessionId.setEmail(request.getParameter("email"));
         accountService.updateUser(userBySessionId);
 
-        UserProfile updatedUserProfile = accountService.getUserByLogin(request.getParameter("login"));
-
         response.setContentType("text/html;charset=utf-8");
         response.getWriter().println("Details was saved successfully");
         response.setStatus(HttpServletResponse.SC_OK);
     }
 
-    //Unregister
+    //Log OUT
     public void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String user = request.getParameter("login");
-        String sessionId = request.getRequestedSessionId();
+        accountService.deleteSession(request.getSession().getId());
 
-        if (user.isEmpty()) {
-            response.setContentType("text/html;charset=utf-8");
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            return;
-        }
-        accountService.deleteSession(sessionId);
-        accountService.deleteUser(user);
-
-        response.setContentType("text/html;charset=utf-8");
-        response.setStatus(HttpServletResponse.SC_OK);
-
-        String result = String.format("User %s was deleted.", user);
-        response.getWriter().println(result);
-
-        System.out.println(result);
+        response.getWriter().println(PageGenerator.instance().getPage("html/index.html", pageData));
     }
 
     public void setAccountService(AccountService accountService) {

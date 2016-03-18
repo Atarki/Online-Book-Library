@@ -3,8 +3,8 @@ package com.online.library.dao.entity;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by Tim on 14.03.2016.
@@ -16,7 +16,7 @@ public class UserProfile implements Serializable {
     private String login;
     private String password;
     private String email;
-    private List<Book> bookList = new ArrayList<>();
+    private Set<Book> bookList = new HashSet<>();
 
     public UserProfile() {
     }
@@ -32,15 +32,16 @@ public class UserProfile implements Serializable {
         this.user_id = user_id;
     }
 
-//    @Lob
+    //    @Lob
     @Column(name = "bookList")
     @OneToMany
     @JoinTable(name = "users_books", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "book_id"))
-    public List<Book> getBookList() {
+    @OrderColumn(name = "book_id")
+    public Set<Book> getBookList() {
         return bookList;
     }
 
-    public void setBookList(List<Book> bookList) {
+    public void setBookList(Set<Book> bookList) {
         this.bookList = bookList;
     }
 

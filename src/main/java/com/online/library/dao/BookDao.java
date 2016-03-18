@@ -59,7 +59,4 @@ public class BookDao {
         session.getTransaction().commit();
         session.close();
     }
-    public void update() {
-        BookRepository.getInstance().setBookList(getBookList());
-    }
 }

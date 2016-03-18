@@ -22,15 +22,20 @@ public class HomeServlet extends HttpServlet {
     private Map<String, Object> pageData = new HashMap<>();
     private BookService bookService;
     private AccountService accountService;
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        UserProfile userBySessionId = accountService.getUserBySessionId(req.getRequestedSessionId());
+        UserProfile userBySessionId = accountService.getUserBySessionId(req.getSession().getId());
 
         List<Book> bookList = bookService.getBookList();
+        pageData.clear();
         pageData.put("books", bookList);
 
         if (userBySessionId != null) {
             pageData.put("user", userBySessionId.getLogin());
+            if ("admin".equals(userBySessionId.getLogin())) {
+                pageData.put("user", userBySessionId.getLogin());
+            }
         }
         resp.getWriter().println(PageGenerator.instance().getPage("html/bookLibrary.html", pageData));
     }

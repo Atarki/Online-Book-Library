@@ -25,9 +25,9 @@ public class EditLibraryServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        UserProfile userBySessionId = accountService.getUserBySessionId(req.getRequestedSessionId());
+        UserProfile userBySessionId = accountService.getUserBySessionId(req.getSession().getId());
 
-        if (userBySessionId != null) {
+        if (userBySessionId.getLogin().equals("admin")) {
             pageData.put("user", userBySessionId.getLogin());
         }
 
@@ -39,7 +39,7 @@ public class EditLibraryServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         //Add new book
-        UserProfile userBySessionId = accountService.getUserBySessionId(req.getRequestedSessionId());
+        UserProfile userBySessionId = accountService.getUserBySessionId(req.getSession().getId());
 
         if (!userBySessionId.getLogin().equals("admin")) {
 //                resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
@@ -72,7 +72,7 @@ public class EditLibraryServlet extends HttpServlet {
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         //Edit book
-        UserProfile userBySessionId = accountService.getUserBySessionId(req.getRequestedSessionId());
+        UserProfile userBySessionId = accountService.getUserBySessionId(req.getSession().getId());
         if (!userBySessionId.getLogin().equals("admin")) {
             resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             resp.getWriter().print("You don't have permissions to edit books");
@@ -92,7 +92,7 @@ public class EditLibraryServlet extends HttpServlet {
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         //delete book by id??
 
-        UserProfile userBySessionId = accountService.getUserBySessionId(req.getRequestedSessionId());
+        UserProfile userBySessionId = accountService.getUserBySessionId(req.getSession().getId());
         if (!userBySessionId.getLogin().equals("admin")) {
             resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return;

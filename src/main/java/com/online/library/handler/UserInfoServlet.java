@@ -11,8 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by Tim on 16.03.2016.
@@ -23,7 +23,7 @@ public class UserInfoServlet extends HttpServlet {
 
     //Get user info
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        UserProfile profile = accountService.getUserBySessionId(request.getRequestedSessionId());
+        UserProfile profile = accountService.getUserBySessionId(request.getSession().getId());
 
         if (profile == null) {
             response.setContentType("text/html;charset=utf-8");
@@ -31,7 +31,7 @@ public class UserInfoServlet extends HttpServlet {
             return;
         }
 
-        List<Book> profileBookList = profile.getBookList();
+        Set<Book> profileBookList = profile.getBookList();
 
         pageData.put("userInfo", profile);
         pageData.put("userBooks", profileBookList);

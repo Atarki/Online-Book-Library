@@ -2,6 +2,7 @@ package com.online.library.dao;
 
 import com.online.library.dao.entity.Book;
 import com.online.library.dao.entity.UserProfile;
+import com.online.library.dao.entity.UsersBooks;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -25,11 +26,14 @@ public class Configuration {
                     .configure("hibernate.cfg.xml")
                     .build();
 
+
             metadata = new MetadataSources(serviceRegistry)
                     .addAnnotatedClass(Book.class)
                     .addAnnotatedClass(UserProfile.class)
+                    .addAnnotatedClass(UsersBooks.class)
                     .addAnnotatedClassName("com.online.library.dao.entity.Book")
                     .addAnnotatedClassName("com.online.library.dao.entity.UserProfile")
+                    .addAnnotatedClassName("com.online.library.dao.entity.UsersBooks")
                     .addResource("hibernate.cfg.xml")
                     .addResource("mapping.hbn.xml")
                     .getMetadataBuilder()

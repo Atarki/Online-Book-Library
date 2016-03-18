@@ -40,7 +40,7 @@
                     <td>${books.genre}</td>
                     <td>${books.year}</td>
                     <td>
-                        <button onclick="deleteBookFromUserList(${books.book_id})">Delete</button>
+                        <button onclick=deleteBook(${books.book_id})>Delete</button>
                     </td>
                 </tr>
             </#list>
@@ -52,13 +52,16 @@
 </body>
 </html>
 <script>
-    function deleteBookFromUserList(book_id) {
+    function deleteBook(book_id) {
         $.ajax({
             type: 'DELETE',
             url: '/bookmark',
             data: {book_id: book_id},
-            success: function (res, status, xhr) {
+            dataType : "html",
+            headers: {book_id: book_id},
+            success: function () {
                 alert("Book was deleted from bookmark successfully");
+                    window.location.replace("/userInfo");
             },
             error: function () {
                 alert("Error");

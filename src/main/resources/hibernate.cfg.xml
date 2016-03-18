@@ -19,6 +19,6 @@
         <mapping class="com.online.library.dao.entity.Book"/>
         <!--<mapping class="com.online.library.dao.UserBookDao"/>-->
         <!-- DB schema will be updated if needed -->
-        <!-- <property title="hbm2ddl.auto">update</property> -->
+        <!-- <property title="hbm2ddl.auto">initialize</property> -->
     </session-factory>
 </hibernate-configuration>

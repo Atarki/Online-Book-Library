@@ -8,21 +8,21 @@
 </head>
 <body>
 <div class="block">
-    <#if user??>
-        Hi ${user}
-        <form action="/userInfo" method="get">
-            <button id="userInfo">User info</button>
-        </form>
-        <form>
-            <button id="logOut">Log Out</button>
-        </form>
-        <#else>
-            <a href="register.html" id="register">Register</a>
-            <a href="login.html" id="login">Sign in</a>
-    </#if>
-    <#if user?? && user=="admin">
-        <a href="/library">EDIT LIBRARY</a>
-    </#if>
+    <div class="user">
+        <#if user??>
+            Hi ${user}
+            <form action="/userInfo" method="get">
+                <button id="userInfo">User info</button>
+            </form>
+            <button onclick="logOut();">Log Out</button>
+            <#else>
+                <a href="register.html" id="register">Register</a>
+                <a href="login.html" id="login">Sign in</a>
+        </#if>
+        <#if user?? && user=="admin">
+            <a href="/library">EDIT LIBRARY</a>
+        </#if>
+    </div>
     <br>
 
     <br>
@@ -59,7 +59,15 @@
             type: 'GET',
             url: '/home',
             data: {book_id: book_id}
-
+        });
+    }
+    function logOut() {
+        $.ajax({
+            type: 'DELETE',
+            url: '/account' ,
+            success: function () {
+                window.location.replace("/index.html");
+            },
         });
     }
     function bookmarkBook(book_id) {

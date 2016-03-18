@@ -7,6 +7,11 @@
     padding: 15px;
     margin: auto;
 }
+.user {
+    width: 250px;
+    height: auto;
+    padding: 15px;
+}
  button{
      border-style: solid;
      border-color: aquamarine;

@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
 
 /**
  * Created by Tim on 16.03.2016.
@@ -23,16 +22,11 @@ public class BookmarkBookServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         //Bookmark(add) book to userBookList
         Book bookById = bookService.getBookById(Integer.parseInt(req.getParameter("book_id")));
-        UserProfile userBySessionId = accountService.getUserBySessionId(req.getRequestedSessionId());
+        UserProfile userBySessionId = accountService.getUserBySessionId(req.getSession().getId());
 
         if (userBySessionId == null) {
             resp.sendError(HttpServletResponse.SC_UNAUTHORIZED);
             return;
-        }
-
-        List<Book> userBookList = userBySessionId.getBookList();
-        if (!userBookList.contains(bookById)) {
-            userBookList.add(bookById);
         }
         accountService.linkBookToUser(userBySessionId, bookById);
     }
@@ -40,20 +34,10 @@ public class BookmarkBookServlet extends HttpServlet {
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         //UnBookmark(delete) book from userBookList
-        String id = req.getParameter("book_id");
-        System.out.println(id);
-        int book_id = Integer.parseInt(id);
-
-        System.out.println(book_id);
-
-        Book bookById =  bookService.getBookById(book_id);
+        int book_id = Integer.parseInt(req.getHeader("book_id"));
+        Book bookById = bookService.getBookById(book_id);
         UserProfile userBySessionId = accountService.getUserBySessionId(req.getRequestedSessionId());
 
-        List<Book> userBookList = userBySessionId.getBookList();
-        if (userBookList.contains(bookById)) {
-            userBookList.remove(bookById);
-            System.out.println(userBookList + " Was removed");
-        }
         accountService.unLinkBookToUser(userBySessionId, bookById);
     }
 

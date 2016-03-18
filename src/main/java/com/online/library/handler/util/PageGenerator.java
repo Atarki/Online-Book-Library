@@ -32,6 +32,9 @@ public class PageGenerator {
         return stream.toString();
     }
 
+    public void clear() {
+        cfg.clearTemplateCache();
+    }
     private PageGenerator() {
         cfg = new Configuration();
     }

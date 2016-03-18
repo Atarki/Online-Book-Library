@@ -18,11 +18,11 @@ import org.eclipse.jetty.servlet.ServletHolder;
  */
 public class Starter {
     public static void main(String[] args) throws Exception {
-        BookService bookService = new BookService();
-        AccountService accountService = new AccountService();
         UserDao userDao = new UserDao();
         BookDao bookDao = new BookDao();
         UserBookDao userBookDao = new UserBookDao();
+        BookService bookService = new BookService();
+        AccountService accountService = new AccountService();
 
         bookService.setBookDao(bookDao);
         accountService.setUserDao(userDao);

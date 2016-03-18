@@ -9,14 +9,24 @@
         <property name="login" column="login"/>
         <property name="password" column="password"/>
         <property name="email" column="email"/>
-        <property name="bookList" type="com.online.library.dao.entity.Book" column="bookList"/>
+        <set name="bookList" table="users_books">
+            <key column="book_id"/>
+            <one-to-many class="com.online.library.dao.entity.Book"/>
+        </set>
     </class>
+
     <class name="com.online.library.dao.entity.Book" table="books" schema="booklibrary">
         <id name="book_id" column="book_id"/>
         <property name="title" column="title"/>
         <property name="genre" column="genre"/>
         <property name="author" column="author"/>
         <property name="year" column="year"/>
+    </class>
+
+
+    <class name="com.online.library.dao.entity.UsersBooks" table="users_books" schema="booklibrary">
+        <id name="userProfile" column="user_id"/>
+        <property name="book" column="book_id"/>
     </class>
 
 

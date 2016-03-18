@@ -16,32 +16,31 @@ public class BookService {
         this.bookDao = bookDao;
     }
 
-    public void update() {
-        // TODO: 14.03.2016
-        bookDao.update();
+    public void initialize() {
+        List<Book> bookList = bookDao.getBookList();
+        BookRepository.getInstance().setBookList(bookList);
     }
 
     public List<Book> getBookList() {
-        List<Book> bookList = bookDao.getBookList();
-        BookRepository.getInstance().setBookList(bookList);
-        return bookList;
+        return BookRepository.getInstance().getBookList();
     }
 
     public void addBook(Book book) {
         bookDao.addBook(book);
         //Update new cache to get ID for new book
-        update();
+        initialize();
     }
 
     public void deleteBook(int id) {
         /*bookDao.deleteBook(id);*/
         //Remove from cache also
         BookRepository.getInstance().removeBook(id);
+        initialize();
     }
 
     public void editBook(int id, String title, String author, String genre, String year) {
         bookDao.editBook(id, title, author, genre, year);
-        //Update book in cache repository faster, then get all objects from DB to update new cache
+        //Update book in cache repository faster, then get all objects from DB to initialize new cache
         BookRepository.getInstance().editBook(id, title, author, genre, year);
     }
 
