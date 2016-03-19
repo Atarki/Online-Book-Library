@@ -24,6 +24,7 @@
         </tr>
     </table>
     <br/>
+
     <table>
         <th><h4>#</h4></th>
         <th><h4>Title</h4></th>
@@ -31,6 +32,7 @@
         <th><h4>Genre</h4></th>
         <th><h4>Year</h4></th>
         <th><h4>Delete</h4></th>
+        <th><h4>Download</h4></th>
         <#if userBooks??>
             <#list userBooks as books>
                 <tr>
@@ -40,7 +42,12 @@
                     <td>${books.genre}</td>
                     <td>${books.year}</td>
                     <td>
-                        <button onclick=deleteBook(${books.book_id})>Delete</button>
+                        <button onclick="deleteBook(${books.book_id})">Delete</button>
+                    </td>
+                    <td>
+                        <form action="/download" method="get">
+                            <button>Download</button>
+                        </form>
                     </td>
                 </tr>
             </#list>
@@ -57,11 +64,26 @@
             type: 'DELETE',
             url: '/bookmark',
             data: {book_id: book_id},
-            dataType : "html",
+            dataType: "html",
             headers: {book_id: book_id},
             success: function () {
                 alert("Book was deleted from bookmark successfully");
-                    window.location.replace("/userInfo");
+                window.location.replace("/userInfo");
+            },
+            error: function () {
+                alert("Error");
+            }
+        });
+    }
+    function download(book_id) {
+        $.ajax({
+            type: 'GET',
+            url: '/download',
+            data: {book_id: book_id},
+            dataType: "html",
+            headers: {book_id: book_id},
+            success: function () {
+                document.write(response);
             },
             error: function () {
                 alert("Error");

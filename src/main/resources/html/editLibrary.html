@@ -69,11 +69,10 @@
             },
             success: function (res, status, xhr) {
                 alert("Book was added to library successfully");
-//                window.location.replace("/editLibrary.html");
             },
             error: function () {
-                alert("You are not authorized");
-                window.location.replace("/books");
+                alert("Fill the fields correctly");
+                window.location.replace("/library");
             }
         });
     }

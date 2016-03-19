@@ -6,9 +6,6 @@ import org.hibernate.Session;
 
 import java.util.List;
 
-/**
- * Created by Tim on 14.03.2016.
- */
 public class BookDao {
     private Session session;
 

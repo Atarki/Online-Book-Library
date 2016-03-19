@@ -17,7 +17,6 @@
         <mapping resource="mapping.hbn.xml"/>
         <mapping class="com.online.library.dao.entity.UserProfile"/>
         <mapping class="com.online.library.dao.entity.Book"/>
-        <!--<mapping class="com.online.library.dao.UserBookDao"/>-->
         <!-- DB schema will be updated if needed -->
         <!-- <property title="hbm2ddl.auto">initialize</property> -->
     </session-factory>

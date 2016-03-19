@@ -5,9 +5,6 @@ import org.hibernate.Session;
 
 import java.util.List;
 
-/**
- * Created by Tim on 14.03.2016.
- */
 public class UserDao {
     private Session session;
 

@@ -14,9 +14,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-/**
- * Created by Tim on 16.03.2016.
- */
 public class UserInfoServlet extends HttpServlet {
     private Map<String, Object> pageData = new HashMap<>();
     private AccountService accountService;

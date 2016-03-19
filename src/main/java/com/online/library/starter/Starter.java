@@ -25,10 +25,15 @@ public class Starter {
         AccountService accountService = new AccountService();
 
         bookService.setBookDao(bookDao);
+        bookService.initialize();
+
         accountService.setUserDao(userDao);
         accountService.setUserBookDao(userBookDao);
+        accountService.initializeUsers();
 
-        bookService.getBookList();                       // delete later
+
+        AccountServlet accountServlet = new AccountServlet();
+        accountServlet.setAccountService(accountService);
 
         BookInfoServlet bookInfoServlet = new BookInfoServlet();
         bookInfoServlet.setBookService(bookService);
@@ -45,11 +50,14 @@ public class Starter {
         homeServlet.setAccountService(accountService);
         homeServlet.setBookService(bookService);
 
-        AccountServlet accountServlet = new AccountServlet();
-        accountServlet.setAccountService(accountService);
+        SearchBookServlet searchBookServlet = new SearchBookServlet();
+        searchBookServlet.setBookService(bookService);
 
         UserInfoServlet userInfoServlet = new UserInfoServlet();
         userInfoServlet.setAccountService(accountService);
+
+        DownloadServlet downloadServlet = new DownloadServlet();
+
 
 
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
@@ -59,6 +67,8 @@ public class Starter {
         context.addServlet(new ServletHolder(bookmarkBookServlet), "/bookmark");
         context.addServlet(new ServletHolder(userInfoServlet), "/userInfo");
         context.addServlet(new ServletHolder(bookInfoServlet), "/bookInfo");
+        context.addServlet(new ServletHolder(downloadServlet), "/download");
+        context.addServlet(new ServletHolder(searchBookServlet), "/search");
 
         ResourceHandler resourceHandler = new ResourceHandler();
         resourceHandler.setResourceBase("src/main/resources/html");

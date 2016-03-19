@@ -15,9 +15,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by Tim on 15.03.2016.
- */
 public class HomeServlet extends HttpServlet {
     private Map<String, Object> pageData = new HashMap<>();
     private BookService bookService;

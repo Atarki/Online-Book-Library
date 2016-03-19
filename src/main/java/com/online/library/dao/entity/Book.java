@@ -3,9 +3,6 @@ package com.online.library.dao.entity;
 import javax.persistence.*;
 import java.io.Serializable;
 
-/**
- * Created by Tim on 14.03.2016.
- */
 @Entity
 @Table(name = "books", schema = "booklibrary")
 public class Book implements Serializable {

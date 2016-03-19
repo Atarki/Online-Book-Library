@@ -10,6 +10,10 @@ public class AccountService {
     private UserDao userDao;
     private UserBookDao userBookDao;
 
+    public void initializeUsers() {
+        UserRepository.getInstance().initializeUsers(userDao.getUserList());
+    }
+
     public void linkBookToUser(UserProfile userProfile, Book book) {
         userBookDao.linkBookToUser(userProfile, book);
     }
@@ -27,7 +31,7 @@ public class AccountService {
     }
 
     public void addNewUser(UserProfile newUser) {
-//        userDao.addNewUser(newUser);
+        userDao.addNewUser(newUser);
         UserRepository.getInstance().addNewUser(newUser);
     }
 

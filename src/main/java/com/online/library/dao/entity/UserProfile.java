@@ -6,9 +6,6 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * Created by Tim on 14.03.2016.
- */
 @Entity
 @Table(name = "users", schema = "booklibrary")
 public class UserProfile implements Serializable {
@@ -32,7 +29,6 @@ public class UserProfile implements Serializable {
         this.user_id = user_id;
     }
 
-    //    @Lob
     @Column(name = "bookList")
     @OneToMany
     @JoinTable(name = "users_books", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "book_id"))

@@ -3,11 +3,9 @@ package com.online.library.dao.cache;
 import com.online.library.dao.entity.UserProfile;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-/**
- * Created by Tim on 14.03.2016.
- */
 public class UserRepository {
     private static UserRepository ourInstance = new UserRepository();
     private Map<String, UserProfile> loginToProfile;
@@ -62,6 +60,13 @@ public class UserRepository {
             if (key.equals(userProfile.getLogin())) {
                 sessionIdToProfile.replace(key, userProfile);
             }
+        }
+    }
+
+    public void initializeUsers(List<UserProfile> userProfileList) {
+        for (int i = 0; i < userProfileList.size(); i++) {
+            UserProfile profile = userProfileList.get(i);
+            loginToProfile.put(profile.getLogin(), profile);
         }
     }
 }

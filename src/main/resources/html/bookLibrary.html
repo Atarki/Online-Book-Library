@@ -26,8 +26,8 @@
     <br>
 
     <br>
-    <input id="search" type="text">
-    <button>Search</button>
+    <!--<input id="search" type="text" name="search">-->
+    <!--<button>Search</button>-->
     <br>
 
     <table class="userTable">
@@ -40,9 +40,7 @@
         <#list books as book>
             <tr id=${book_index+1}>
                 <td>
-                    <form action="/bookInfo" method="get">
-                        <button name="${book.book_id}">info</button>
-                    </form>
+                    <button onclick="info(${book.book_id})">info</button>
                 </td>
                 <td>${book.book_id}</td>
                 <td>${book.title}</td>
@@ -57,14 +55,19 @@
     function info(book_id) {
         $.ajax({
             type: 'GET',
-            url: '/home',
-            data: {book_id: book_id}
+            url: '/bookInfo',
+            data: {book_id: book_id},
+            dataType: "html",
+            success: function (response) {
+                document.write(response);
+            }
         });
+
     }
     function logOut() {
         $.ajax({
             type: 'DELETE',
-            url: '/account' ,
+            url: '/account',
             success: function () {
                 window.location.replace("/index.html");
             },
@@ -75,6 +78,23 @@
             type: 'POST',
             url: '/bookmark',
             data: {book_id: book_id},
+            success: function (res, status, xhr) {
+                alert("Book was added to bookmark successfully");
+            },
+            error: function () {
+                alert("You are not authorized");
+            }
+        });
+    }
+    function searchBook(book_id, title, author) {
+        $.ajax({
+            type: 'POST',
+            url: '/search',
+            data: {
+                book_id: book_id,
+                title: title,
+                author: author,
+            },
             success: function (res, status, xhr) {
                 alert("Book was added to bookmark successfully");
             },

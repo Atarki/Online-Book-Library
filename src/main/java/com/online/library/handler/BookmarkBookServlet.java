@@ -11,9 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-/**
- * Created by Tim on 16.03.2016.
- */
 public class BookmarkBookServlet extends HttpServlet {
     private BookService bookService;
     private AccountService accountService;

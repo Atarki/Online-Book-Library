@@ -15,9 +15,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by Tim on 14.03.2016.
- */
 public class EditLibraryServlet extends HttpServlet {
     private Map<String, Object> pageData = new HashMap<>();
     private BookService bookService;
@@ -25,6 +22,7 @@ public class EditLibraryServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        //Get all available books
         UserProfile userBySessionId = accountService.getUserBySessionId(req.getSession().getId());
 
         if (userBySessionId.getLogin().equals("admin")) {
@@ -39,34 +37,30 @@ public class EditLibraryServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         //Add new book
-        UserProfile userBySessionId = accountService.getUserBySessionId(req.getSession().getId());
 
-        if (!userBySessionId.getLogin().equals("admin")) {
-//                resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            resp.sendError(HttpServletResponse.SC_UNAUTHORIZED);
-            resp.getWriter().print("You don't have permissions to add new books");
+        String title = req.getParameter("title");
+        String author = req.getParameter("author");
+        String genre = req.getParameter("genre");
+        String year = req.getParameter("year");
+
+        if (title == null || author == null || genre == null || year == null
+                ||title.equals("")|| author.equals("") || genre.equals("") || year.equals("")) {
+            resp.sendError(HttpServletResponse.SC_NOT_ACCEPTABLE);
             return;
         }
 
-
         Book newBook = new Book();
-        newBook.setTitle(req.getParameter("title"));
-        newBook.setAuthor(req.getParameter("author"));
-        newBook.setGenre(req.getParameter("genre"));
-        newBook.setYear(req.getParameter("year"));
+        newBook.setTitle(title);
+        newBook.setAuthor(author);
+        newBook.setGenre(genre);
+        newBook.setYear(year);
 
-//        bookService.addBook(newBook);
-
-        System.out.println(newBook.toString());
+        bookService.addBook(newBook);
 
         List<Book> bookList = bookService.getBookList();
         pageData.put("books", bookList);
 
-        if (userBySessionId != null) {
-            pageData.put("user", userBySessionId.getLogin());
-        }
         resp.getWriter().println(PageGenerator.instance().getPage("html/editLibrary.html", pageData));
-
     }
 
     @Override
@@ -91,7 +85,6 @@ public class EditLibraryServlet extends HttpServlet {
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         //delete book by id??
-
         UserProfile userBySessionId = accountService.getUserBySessionId(req.getSession().getId());
         if (!userBySessionId.getLogin().equals("admin")) {
             resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);

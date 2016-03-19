@@ -5,9 +5,6 @@ import com.online.library.dao.entity.Book;
 import java.util.Iterator;
 import java.util.List;
 
-/**
- * Created by Tim on 14.03.2016.
- */
 public class BookRepository {
     private List<Book> bookList;
 
@@ -49,6 +46,10 @@ public class BookRepository {
         }
     }
 
+    public List<Book> getBookList() {
+        return bookList;
+    }
+
     public Book getBookById(int id) {
         Book foundedBook = null;
         for (Book book : bookList) {
@@ -59,7 +60,23 @@ public class BookRepository {
         return foundedBook;
     }
 
-    public List<Book> getBookList() {
-        return bookList;
+    public Book getBookByAuthor(String author) {
+        Book foundedBook = null;
+        for (Book book : bookList) {
+            if (book.getAuthor().equals(author)) {
+                foundedBook = book;
+            }
+        }
+        return foundedBook;
+    }
+
+    public Book getBookByTitle(String title) {
+        Book foundedBook = null;
+        for (Book book : bookList) {
+            if (book.getTitle().equals(title)) {
+                foundedBook = book;
+            }
+        }
+        return foundedBook;
     }
 }

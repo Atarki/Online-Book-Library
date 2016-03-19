@@ -6,9 +6,6 @@ import com.online.library.dao.entity.Book;
 
 import java.util.List;
 
-/**
- * Created by Tim on 14.03.2016.
- */
 public class BookService {
     private BookDao bookDao;
 
@@ -47,5 +44,13 @@ public class BookService {
     public Book getBookById(int id) {
         //Getting book from cache repository(quicker then from DB)
         return BookRepository.getInstance().getBookById(id);
+    }
+    public Book getBookByAuthor(String author) {
+        //Getting book from cache repository(quicker then from DB)
+        return BookRepository.getInstance().getBookByAuthor(author);
+    }
+    public Book getBookByTitle(String title) {
+        //Getting book from cache repository(quicker then from DB)
+        return BookRepository.getInstance().getBookByTitle(title);
     }
 }

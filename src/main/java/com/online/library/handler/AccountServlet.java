@@ -18,15 +18,16 @@ public class AccountServlet extends HttpServlet {
 
     //Login
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        UserProfile profile = accountService.getUserByLogin(request.getParameter("login"));
+        String login = request.getParameter("login");
         String password = request.getParameter("password");
 
-        if (profile == null || password == null) {
-            response.setContentType("text/html;charset=utf-8");
-            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+        if (login == null || password == null || password.equals("")) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        } else {
+            UserProfile profile = accountService.getUserByLogin(login);
+            accountService.addSession(request.getSession().getId(), profile);
         }
-
-        accountService.addSession(request.getSession().getId(), profile);
+        response.setContentType("text/html;charset=utf-8");
         response.sendRedirect("/home");
     }
 
@@ -65,7 +66,6 @@ public class AccountServlet extends HttpServlet {
     //Log OUT
     public void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         accountService.deleteSession(request.getSession().getId());
-
         response.getWriter().println(PageGenerator.instance().getPage("html/index.html", pageData));
     }
 

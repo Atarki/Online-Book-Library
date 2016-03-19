@@ -6,9 +6,6 @@ import com.online.library.dao.entity.UserProfile;
 
 import java.util.Set;
 
-/**
- * Created by Tim on 16.03.2016.
- */
 public class UserBookDao {
 
     public void linkBookToUser(UserProfile userProfile, Book bookToLink) {
