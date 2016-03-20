@@ -27,7 +27,7 @@
     <button>Search</button>
     <br>
 
-    <table class="userTable">
+    <table>
         <thead>
         <th>index</th>
         <th>title</th>
@@ -37,7 +37,7 @@
         <th>action</th>
         </thead>
         <#list books as book>
-            <tr>
+            <tr id=${book.book_id}>
                 <td>${book.book_id}</td>
                 <td>${book.title}</td>
                 <td>${book.author}</td>
@@ -69,6 +69,7 @@
             },
             success: function (res, status, xhr) {
                 alert("Book was added to library successfully");
+                window.location.replace("/library");
             },
             error: function () {
                 alert("Fill the fields correctly");
@@ -76,18 +77,19 @@
             }
         });
     }
-
     function deleteBook(book_id) {
         $.ajax({
             type: 'DELETE',
             url: '/library',
-            data: {book_id: book_id},
+            context: this,
+            headers: {book_id: book_id},
             success: function () {
                 alert("Book was deleted successfully");
+                document.getElementById(book_id).remove();
+
             },
             error: function () {
-                alert("You are not authorized");
-//                window.location.replace("/library");
+                alert("Error");
             }
         });
     }

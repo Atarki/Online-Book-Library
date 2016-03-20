@@ -85,16 +85,10 @@ public class EditLibraryServlet extends HttpServlet {
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         //delete book by id??
-        UserProfile userBySessionId = accountService.getUserBySessionId(req.getSession().getId());
-        if (!userBySessionId.getLogin().equals("admin")) {
-            resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            return;
-        }
-
         int id = Integer.parseInt(req.getParameter("book_id"));
         bookService.deleteBook(id);
 
-        resp.sendRedirect("/library");
+        resp.setStatus(HttpServletResponse.SC_OK);
     }
 
     public void setBookService(BookService bookService) {
