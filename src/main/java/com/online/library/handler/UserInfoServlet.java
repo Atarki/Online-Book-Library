@@ -38,4 +38,8 @@ public class UserInfoServlet extends HttpServlet {
     public void setAccountService(AccountService accountService) {
         this.accountService = accountService;
     }
+
+    public void setPageData(Map<String, Object> pageData) {
+        this.pageData = pageData;
+    }
 }

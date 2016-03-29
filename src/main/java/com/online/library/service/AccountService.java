@@ -11,7 +11,7 @@ public class AccountService {
     private UserBookDao userBookDao;
 
     public void initializeUsers() {
-        UserRepository.getInstance().initializeUsers(userDao.getUserList());
+        UserRepository.getInstance().initializeUsers(userDao.get());
     }
 
     public void linkBookToUser(UserProfile userProfile, Book book) {
@@ -31,16 +31,15 @@ public class AccountService {
     }
 
     public void addNewUser(UserProfile newUser) {
-        userDao.addNewUser(newUser);
-        UserRepository.getInstance().addNewUser(newUser);
+        userDao.add(newUser);
     }
 
     public void addSession(String requestedSessionId, UserProfile newUser) {
         UserRepository.getInstance().addSession(requestedSessionId, newUser);
     }
 
-    public void updateUser(UserProfile userBySessionId) {
-        UserRepository.getInstance().updateUser(userBySessionId);
+    public void edit(UserProfile userBySessionId) {
+        UserRepository.getInstance().edit(userBySessionId);
     }
 
     public void deleteSession(String sessionId) {

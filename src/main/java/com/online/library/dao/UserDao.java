@@ -1,45 +1,74 @@
 package com.online.library.dao;
 
+import com.online.library.dao.cache.UserRepository;
 import com.online.library.dao.entity.UserProfile;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 
 import java.util.List;
 
-public class UserDao {
+public class UserDao implements InterfaceDao<UserProfile> {
     private Session session;
 
-    public List<UserProfile> getUserList() {
-        session = Configuration.getSession();
-        session.beginTransaction();
-
-        List<UserProfile> userProfileList = session.createQuery("from com.online.library.dao.entity.UserProfile").list();
-        session.getTransaction().commit();
-        session.close();
-
+    @Override
+    public List<UserProfile> get() {
+        List<UserProfile> userProfileList = null;
+        try {
+            session = Configuration.getSession();
+            session.beginTransaction();
+            userProfileList = session.createQuery("from com.online.library.dao.entity.UserProfile").list();
+            session.getTransaction().commit();
+        } catch (HibernateException e) {
+            e.printStackTrace();
+            session.getTransaction().rollback();
+        } finally {
+            session.close();
+        }
         return userProfileList;
     }
 
-    public UserProfile getUserByLogin(String login) {
-        session = Configuration.getSession();
-        session.beginTransaction();
+    @Override
+    public void add(UserProfile newUser) {
+        try {
+            session = Configuration.getSession();
+            session.beginTransaction();
+            session.save(newUser);
+            session.getTransaction().commit();
 
-        UserProfile user = null;
-        List<UserProfile> userProfileList = session.createQuery("from com.online.library.dao.entity.UserProfile").list();
-        for (UserProfile userFormList : userProfileList) {
-            if (userFormList.getLogin().equals(login)) {
-                user = userFormList;
-            }
+            UserRepository.getInstance().addNewUser(newUser);
+        } catch (HibernateException e) {
+            e.printStackTrace();
+            session.getTransaction().rollback();
+        } finally {
+            session.close();
         }
-        session.getTransaction().commit();
-        session.close();
+    }
+
+    @Override
+    public UserProfile get(String login) {
+        UserProfile user = null;
+        try {
+            session = Configuration.getSession();
+            session.beginTransaction();
+
+            List<UserProfile> userProfileList = session.createQuery("from com.online.library.dao.entity.UserProfile").list();
+            for (UserProfile userFormList : userProfileList) {
+                if (userFormList.getLogin().equals(login)) {
+                    user = userFormList;
+                }
+            }
+            session.getTransaction().commit();
+        } catch (HibernateException e) {
+            e.printStackTrace();
+            session.getTransaction().rollback();
+        } finally {
+            session.close();
+        }
         return user;
     }
 
-    public void addNewUser(UserProfile newUser) {
-        session = Configuration.getSession();
-        session.beginTransaction();
-        session.save(newUser);
-        session.getTransaction().commit();
-        session.close();
+    @Override
+    public void delete(int i) {
+
     }
 }

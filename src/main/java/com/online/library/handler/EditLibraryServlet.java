@@ -85,7 +85,7 @@ public class EditLibraryServlet extends HttpServlet {
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         //delete book by id??
-        int id = Integer.parseInt(req.getParameter("book_id"));
+        int id = Integer.parseInt(req.getHeader("book_id"));
         bookService.deleteBook(id);
 
         resp.setStatus(HttpServletResponse.SC_OK);
@@ -97,5 +97,9 @@ public class EditLibraryServlet extends HttpServlet {
 
     public void setAccountService(AccountService accountService) {
         this.accountService = accountService;
+    }
+
+    public void setPageData(Map<String, Object> pageData) {
+        this.pageData = pageData;
     }
 }

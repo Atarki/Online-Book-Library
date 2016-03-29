@@ -2,6 +2,7 @@ package com.online.library.handler.util;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,6 +14,7 @@ import java.util.Map;
 public class PageGenerator {
     private static final String HTML_DIR = "src\\main\\resources";
     private static PageGenerator pageGenerator;
+    @Autowired
     private final Configuration cfg;
 
     public static PageGenerator instance() {

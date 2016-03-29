@@ -13,6 +13,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class AccountServlet extends HttpServlet {
+    public void setPageData(Map<String, Object> pageData) {
+        this.pageData = pageData;
+    }
+
     private Map<String, Object> pageData = new HashMap<>();
     private AccountService accountService;
 
@@ -56,7 +60,7 @@ public class AccountServlet extends HttpServlet {
         userBySessionId.setLogin(request.getParameter("login"));
         userBySessionId.setPassword(request.getParameter("pass"));
         userBySessionId.setEmail(request.getParameter("email"));
-        accountService.updateUser(userBySessionId);
+        accountService.edit(userBySessionId);
 
         response.setContentType("text/html;charset=utf-8");
         response.getWriter().println("Details was saved successfully");

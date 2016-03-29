@@ -48,7 +48,7 @@ public class UserRepository {
         loginToProfile.remove(user);
     }
 
-    public void updateUser(UserProfile userProfile) {
+    public void edit(UserProfile userProfile) {
         for (Map.Entry<String, UserProfile> entry : loginToProfile.entrySet()) {
             String key = entry.getKey();
             if (key.equals(userProfile.getLogin())) {

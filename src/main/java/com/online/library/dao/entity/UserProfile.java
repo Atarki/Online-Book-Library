@@ -3,6 +3,7 @@ package com.online.library.dao.entity;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -14,9 +15,6 @@ public class UserProfile implements Serializable {
     private String password;
     private String email;
     private Set<Book> bookList = new HashSet<>();
-
-    public UserProfile() {
-    }
 
     @Id
     @Column(name = "user_id")
@@ -71,9 +69,23 @@ public class UserProfile implements Serializable {
         this.password = password;
     }
 
+    public UserProfile() {
+    }
+
     public UserProfile(String login, String password, String email) {
         this.login = login;
         this.password = password;
         this.email = email;
+    }
+
+    @Override
+    public String toString() {
+        return "UserProfile{" +
+                "user_id=" + user_id +
+                ", login='" + login + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", bookList=" + Arrays.toString(bookList.toArray()) +
+                '}';
     }
 }

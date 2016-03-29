@@ -39,4 +39,8 @@ public class SearchBookServlet extends HttpServlet {
     public void setBookService(BookService bookService) {
         this.bookService = bookService;
     }
+
+    public void setPageData(Map<String, Object> pageData) {
+        this.pageData = pageData;
+    }
 }

@@ -14,7 +14,7 @@ public class BookService {
     }
 
     public void initialize() {
-        List<Book> bookList = bookDao.getBookList();
+        List<Book> bookList = bookDao.get();
         BookRepository.getInstance().setBookList(bookList);
     }
 
@@ -23,22 +23,21 @@ public class BookService {
     }
 
     public void addBook(Book book) {
-        bookDao.addBook(book);
+        bookDao.add(book);
         //Update new cache to get ID for new book
         initialize();
     }
 
     public void deleteBook(int id) {
-        /*bookDao.deleteBook(id);*/
+        bookDao.delete(id);
         //Remove from cache also
-        BookRepository.getInstance().removeBook(id);
         initialize();
     }
 
     public void editBook(int id, String title, String author, String genre, String year) {
-        bookDao.editBook(id, title, author, genre, year);
+        bookDao.edit(id, title, author, genre, year);
         //Update book in cache repository faster, then get all objects from DB to initialize new cache
-        BookRepository.getInstance().editBook(id, title, author, genre, year);
+        BookRepository.getInstance().edit(id, title, author, genre, year);
     }
 
     public Book getBookById(int id) {

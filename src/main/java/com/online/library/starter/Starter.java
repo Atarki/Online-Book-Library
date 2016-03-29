@@ -1,64 +1,30 @@
 package com.online.library.starter;
 
-import com.online.library.dao.BookDao;
-import com.online.library.dao.UserBookDao;
-import com.online.library.dao.UserDao;
 import com.online.library.handler.*;
-import com.online.library.service.AccountService;
-import com.online.library.service.BookService;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.HandlerList;
 import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
+import org.springframework.context.support.AbstractApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  * Created by Tim on 14.03.2016.
  */
 public class Starter {
     public static void main(String[] args) throws Exception {
-        UserDao userDao = new UserDao();
-        BookDao bookDao = new BookDao();
-        UserBookDao userBookDao = new UserBookDao();
-        BookService bookService = new BookService();
-        AccountService accountService = new AccountService();
+        AbstractApplicationContext applicationContext = new ClassPathXmlApplicationContext("applicationContext.xml");
 
-        bookService.setBookDao(bookDao);
-        bookService.initialize();
-
-        accountService.setUserDao(userDao);
-        accountService.setUserBookDao(userBookDao);
-        accountService.initializeUsers();
-
-
-        AccountServlet accountServlet = new AccountServlet();
-        accountServlet.setAccountService(accountService);
-
-        BookInfoServlet bookInfoServlet = new BookInfoServlet();
-        bookInfoServlet.setBookService(bookService);
-
-        EditLibraryServlet editLibraryServlet = new EditLibraryServlet();
-        editLibraryServlet.setAccountService(accountService);
-        editLibraryServlet.setBookService(bookService);
-
-        BookmarkBookServlet bookmarkBookServlet = new BookmarkBookServlet();
-        bookmarkBookServlet.setAccountService(accountService);
-        bookmarkBookServlet.setBookService(bookService);
-
-        HomeServlet homeServlet = new HomeServlet();
-        homeServlet.setAccountService(accountService);
-        homeServlet.setBookService(bookService);
-
-        SearchBookServlet searchBookServlet = new SearchBookServlet();
-        searchBookServlet.setBookService(bookService);
-
-        UserInfoServlet userInfoServlet = new UserInfoServlet();
-        userInfoServlet.setAccountService(accountService);
-
-        DownloadServlet downloadServlet = new DownloadServlet();
-
-
+        EditLibraryServlet editLibraryServlet = applicationContext.getBean(EditLibraryServlet.class);
+        HomeServlet homeServlet = applicationContext.getBean(HomeServlet.class);
+        AccountServlet accountServlet = applicationContext.getBean(AccountServlet.class);
+        BookmarkBookServlet bookmarkBookServlet = applicationContext.getBean(BookmarkBookServlet.class);
+        UserInfoServlet userInfoServlet = applicationContext.getBean(UserInfoServlet.class);
+        BookInfoServlet bookInfoServlet = applicationContext.getBean(BookInfoServlet.class);
+        DownloadServlet downloadServlet = applicationContext.getBean(DownloadServlet.class);
+        SearchBookServlet searchBookServlet = applicationContext.getBean(SearchBookServlet.class);
 
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
         context.addServlet(new ServletHolder(editLibraryServlet), "/library");

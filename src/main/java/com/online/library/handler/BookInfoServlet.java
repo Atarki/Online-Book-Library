@@ -14,6 +14,11 @@ import java.util.Map;
 
 public class BookInfoServlet extends HttpServlet {
     private Map<String, Object> pageData = new HashMap<>();
+
+    public void setPageData(Map<String, Object> pageData) {
+        this.pageData = pageData;
+    }
+
     private BookService bookService;
 
     @Override
